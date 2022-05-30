@@ -1,5 +1,5 @@
 import flask
-from flask import request, jsonify, send_from_directory, make_response, send_file
+from flask import request, jsonify, send_from_directory, make_response, send_file, redirect
 import numpy as np
 # importing Qiskit
 from qiskit import BasicAer, IBMQ
@@ -32,10 +32,15 @@ swagger_ui_blueprint = get_swaggerui_blueprint(swagger_url,API_url,config={'app_
 app.register_blueprint(swagger_ui_blueprint, url_prefix=swagger_url)
 
 
+
 @app.errorhandler(500)
 def handle_500_error(_error):
     """Return a http 500 error to client"""
     return make_response(jsonify({'error': 'Server error'}), 500)
+
+@app.route('/',methods=['GET'])
+def idx():
+    return redirect('/home')
 
 
 @app.route('/demo/get_grover_circuit',methods=['GET'])
