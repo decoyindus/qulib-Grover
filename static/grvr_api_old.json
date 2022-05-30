@@ -1,0 +1,156 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "QuLib",
+    "description": "A collection of Quantum Algorithms implemented as APIs."
+  },
+  "paths": {
+    "/demo/get_grover_circuit": {
+      "get": {
+        "tags": [
+          "Get a custom oracle circuit for Grover's algorithm."
+        ],
+        "description": "provides a custom qiskit.QuantumCircuit of the required specifications, in string format.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "qubits",
+            "required": true,
+            "description": "number of qubits required in the circuit.",
+            "schema": {
+              "type": "integer",
+              "example": 3
+            }
+          },
+          {
+            "in": "query",
+            "name": "good states",
+            "required": true,
+            "description": "list of winning states to be found, maximum value should be less than 2^(qubits).",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "returns the quantum circut for grover's algorithm in string format.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "UUlTS0lUAwATAQAAAAAAAAABAAlpAAgAAAAGAAAABgAAAAAAAAAEAAAAAgAAAAAAAAAiY2lyY3VpdC05AAAAAAAAAABudWxscQEAAAAGAAFxAAAAAAAAAAEAAAACAAAAAwAAAAQAAAAFYwEAAAAGAAFjAAAAAAAAAAEAAAACAAAAAwAAAAQAAAAFAAAAAAAAAAAABQAAAAAAAAABAAAAAAAAAAAAAAAAAAAASEdhdGVxAAAAAAAFAAAAAAAAAAEAAAAAAAAAAAAAAAAAAABIR2F0ZXEAAAABAAUAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAEhHYXRlcQAAAAIABQAAAAAAAAABAAAAAAAAAAAAAAAAAAAASEdhdGVxAAAAAwAFAAAAAAAAAAEAAAAAAAAAAAAAAAAAAABIR2F0ZXEAAAAEAAUAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAFhHYXRlcQAAAAUABQAAAAAAAAABAAAAAAAAAAAAAAAAAAAASEdhdGVxAAAABQAHAAAAAAAAAAYAAAAAAAAAAAAAAAAAAABCYXJyaWVycQAAAABxAAAAAXEAAAACcQAAAANxAAAABHEAAAAFAAUAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAFhHYXRlcQAAAAEABQAAAAAAAAABAAAAAAAAAAAAAAAAAAAAWEdhdGVxAAAAAgAFAAAAAAAAAAEAAAAAAAAAAAAAAAAAAABYR2F0ZXEAAAADAAUAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAFhHYXRlcQAAAAQABgAAAAAAAAACAAAAAAAAAAAAAAAAAAAAQ1hHYXRlcQAAAABxAAAABQAGAAAAAAAAAAIAAAAAAAAAAAAAAAAAAABDWEdhdGVxAAAAAXEAAAAFAAYAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAENYR2F0ZXEAAAACcQAAAAUABgAAAAAAAAACAAAAAAAAAAAAAAAAAAAAQ1hHYXRlcQAAAANxAAAABQAGAAAAAAAAAAIAAAAAAAAAAAAAAAAAAABDWEdhdGVxAAAABHEAAAAFAAUAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAFhHYXRlcQAAAAEABQAAAAAAAAABAAAAAAAAAAAAAAAAAAAAWEdhdGVxAAAAAgAFAAAAAAAAAAEAAAAAAAAAAAAAAAAAAABYR2F0ZXEAAAADAAUAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAFhHYXRlcQAAAAQABwAAAAAAAAAGAAAAAAAAAAAAAAAAAAAAQmFycmllcnEAAAAAcQAAAAFxAAAAAnEAAAADcQAAAARxAAAABQAFAAAAAAAAAAEAAAAAAAAAAAAAAAAAAABIR2F0ZXEAAAAAAAcAAAAAAAAAAQAAAAEAAAAAAAAAAAAAAE1lYXN1cmVxAAAAAGMAAAAAAAUAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAEhHYXRlcQAAAAEABwAAAAAAAAABAAAAAQAAAAAAAAAAAAAATWVhc3VyZXEAAAABYwAAAAEABQAAAAAAAAABAAAAAAAAAAAAAAAAAAAASEdhdGVxAAAAAgAHAAAAAAAAAAEAAAABAAAAAAAAAAAAAABNZWFzdXJlcQAAAAJjAAAAAgAFAAAAAAAAAAEAAAAAAAAAAAAAAAAAAABIR2F0ZXEAAAADAAcAAAAAAAAAAQAAAAEAAAAAAAAAAAAAAE1lYXN1cmVxAAAAA2MAAAADAAUAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAEhHYXRlcQAAAAQABwAAAAAAAAABAAAAAQAAAAAAAAAAAAAATWVhc3VyZXEAAAAEYwAAAAQABQAAAAAAAAABAAAAAAAAAAAAAAAAAAAASEdhdGVxAAAABQAHAAAAAAAAAAEAAAABAAAAAAAAAAAAAABNZWFzdXJlcQAAAAVjAAAABQ=="
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Grover/bitmap": {
+      "get": {
+        "tags": [
+          "Perform Grover's Quantum Search on a bitmap."
+        ],
+        "description": "implement Grover's algorithm to perform quantum search on a truth table.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "bitmap",
+            "required": true,
+            "description": "Input truth-table bitmap. Length must be in powers of 2.",
+            "schema": {
+              "type": "string",
+              "example": "0000000000010001"
+            }
+          },
+          {
+            "in": "query",
+            "name": "API_key",
+            "required": true,
+            "description": "API key for IBM-Q Quantum Experience Cloud access.",
+            "schema": {
+              "type": "string",
+              "example": "Enter API key"
+            }
+          },
+          {
+            "in": "query",
+            "name": "good states",
+            "required": true,
+            "description": "number of winning states.",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "applies Grover's quantum search algorithm on the bitmap and returns the decimal values of winning states.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  },
+                  "example": [
+                    11,
+                    15
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Grover/boolean": {
+      "get": {
+        "tags": [
+          "Apply Grover's Algorithm to solve logical expressions."
+        ],
+        "description": "implement Grover's algorithm to get a satisfying solution to arbitrary logical expressions.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "expr",
+            "required": true,
+            "description": "input boolean expression.",
+            "schema": {
+              "type": "string",
+              "example": "(a ^ b) & ~(c ^ d) & (b & c & d)"
+            }
+          },
+          {
+            "in": "query",
+            "name": "API_key",
+            "required": true,
+            "description": "API key for IBM-Q Quantum Experience Cloud access.",
+            "schema": {
+              "type": "string",
+              "example": "Enter API key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "applies Grover's quantum search algorithm on the boolean expression and provides a satisfying solution. ",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "(0111), which means (a = False, b = True, c = True, d = True)."
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
